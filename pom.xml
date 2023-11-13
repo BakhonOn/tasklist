@@ -17,6 +17,7 @@
         <java.version>17</java.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <hibarnate.validator.version>8.0.1.Final</hibarnate.validator.version>
+        <spring.boot.security.version>3.1.5</spring.boot.security.version>
     </properties>
     <dependencies>
         <dependency>
@@ -59,9 +60,16 @@
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibarnate.validator.version}</version>
+        </dependency><!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>${spring.boot.security.version}</version>
         </dependency>
 
-		<dependency>
+
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>

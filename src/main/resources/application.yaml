@@ -4,3 +4,8 @@ spring:
     username: postgres
     password: admin
     url: jdbc:postgresql://localhost:5432/postgres
+security:
+  jwt:
+    secret: ZXdpb2Z1d2VmaGRmc2Rqa2Zld2xpandvZWlmaGlvb2loT0lIRk9JSEZFS1dKRkpFRkJIRUZPV0VJRkpJSzo6TDw=
+    access: 3600000
+    refresh: 864000000

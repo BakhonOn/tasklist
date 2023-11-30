@@ -41,7 +41,7 @@ public class UserController {
     }
     @GetMapping("/{id}/tasks")
     public List<TaskDto> getTasks(@PathVariable Long id){
-        return taskMapper.toDto(taskService.getAllTasksByUserId(id));
+        return taskMapper.toDto(taskService.getAllByUserId(id));
     }
     @PostMapping("{id}/tasks")
     public TaskDto createTask(@PathVariable Long id, @Validated(OnCreate.class) @RequestBody TaskDto taskDto){

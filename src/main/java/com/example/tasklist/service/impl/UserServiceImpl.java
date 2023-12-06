@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Password and password confirmation do not match");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.insertUserRole(Role.ROLE_USER);
+        userRepository.insertUserRole(user.getId(), Role.ROLE_USER);
         user.setRoles(Set.of(Role.ROLE_USER));
         userRepository.create(user);
 

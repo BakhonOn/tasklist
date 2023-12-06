@@ -19,7 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TaskRepositoryImpl implements TaskRepository {
     private final DataSourceConfig dataSourceConfig;
-    private  Connection connection=dataSourceConfig.connection();
+
     private final JdbcTemplate jdbcTemplate;
     private final String SQL_FIND_BY_ID = """
             SELECT id              as task_id,
@@ -62,6 +62,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public Optional<Task> findById(Long id) {
         try{
+            Connection connection=dataSourceConfig.connection();
             PreparedStatement statement=connection.prepareStatement(SQL_FIND_BY_ID);
             statement.setLong(1,id);
             try (ResultSet rs=statement.executeQuery()){
@@ -75,6 +76,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public List<Task> findAllByUserId(Long userId) {
         try{
+            Connection connection=dataSourceConfig.connection();
             PreparedStatement statement=connection.prepareStatement(SQL_FIND_ALL_BY_USER_ID);
             statement.setLong(1,userId);
             try (ResultSet rs=statement.executeQuery()){
@@ -88,6 +90,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public void assignToUserById(Long taskId, Long userId) {
         try {
+            Connection connection=dataSourceConfig.connection();
             PreparedStatement statement=connection.prepareStatement(SQL_ASSIGN_TO_USER_BY_ID);
             statement.setLong(1,userId);
             statement.setLong(2,taskId);
@@ -100,11 +103,12 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public void update(Task task) {
         try {
+            Connection connection=dataSourceConfig.connection();
             PreparedStatement statement=connection.prepareStatement(SQL_UPDATE);
             statement.setString(1,task.getTitle()==null?"":task.getTitle());
             statement.setString(2,task.getDescription()==null?"":task.getDescription());
-            statement.setString(3,task.getStatus().toString()==null?"":task.getStatus().toString()
-            statement.setTimestamp(4, Timestamp.valueOf(task.getExpirationDate()==null? LocalDateTime.now():task.getExpirationDate())));
+            statement.setString(3,task.getStatus().toString()==null?"":task.getStatus().toString());
+            statement.setTimestamp(4, Timestamp.valueOf(task.getExpirationDate()==null? LocalDateTime.now():task.getExpirationDate()));
             statement.setLong(5,task.getId());
             statement.executeUpdate();
         }catch (SQLException e){
@@ -116,11 +120,12 @@ public class TaskRepositoryImpl implements TaskRepository {
     public void create(Task task) {
         try {
 
+            Connection connection=dataSourceConfig.connection();
             PreparedStatement statement=connection.prepareStatement(SQL_CREATE);
             statement.setString(1,task.getTitle()==null?"":task.getTitle());
             statement.setString(2,task.getDescription()==null?"":task.getDescription());
-            statement.setString(3,task.getStatus().toString()==null?"":task.getStatus().toString()
-            statement.setTimestamp(4, Timestamp.valueOf(task.getExpirationDate()==null? LocalDateTime.now():task.getExpirationDate())));
+            statement.setString(3,task.getStatus().toString()==null?"":task.getStatus().toString());
+            statement.setTimestamp(4, Timestamp.valueOf(task.getExpirationDate()==null? LocalDateTime.now():task.getExpirationDate()));
             statement.executeUpdate();
             try (ResultSet rs=statement.getGeneratedKeys()){
                 if (rs.next()){
@@ -135,6 +140,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public void delete(Long id) {
         try {
+            Connection connection=dataSourceConfig.connection();
             PreparedStatement statement=connection.prepareStatement(SQL_DELETE);
             statement.setLong(1,id);
             statement.executeUpdate();
